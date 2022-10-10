@@ -95,6 +95,8 @@ def ngram_probability_smooth(ngram, ngram_dict, total_size):
 
     return probability
 
+
+
 def sentence_probability(sentence: str, ngram_model: list[dict], total_size):
     ''' Uses an ngram model to calculate the likelihood of a sentence being a valid sentence.
     @param: sentence str - the sentence to test
@@ -131,8 +133,6 @@ def sentence_probability(sentence: str, ngram_model: list[dict], total_size):
         
         cumulative_probability *= conditional_prob
 
-    print()
-
     # Now slide the window the rest of the way
     for i in range(ngram_size, len(sentence_tokens)):
         # Slide the window one word over
@@ -149,36 +149,102 @@ def sentence_probability(sentence: str, ngram_model: list[dict], total_size):
 
     return cumulative_probability
 
+
+
 def main():
-    
-    file_name = "scienceShort.txt"
+     
+   # ---------------------------------------------------------------------
+   # OPENS TRANING SET FILES
+   # ---------------------------------------------------------------------
 
-    assert os.path.exists(file_name), "I was not able to find the file at, "+str(file_name)
+    rootdir = 'DUC 2005 Dataset/TrainingSet/'
+    folder_list = []
 
-    # Open the file as f
-    with open(file_name, 'r', encoding = "utf8") as f:
-        lines = f.read()
-
-        tokens = preprocess(lines)
-        total_size = len(tokens)
+    for file in os.listdir(rootdir):
+            folder_list.append( os.path.join(rootdir, file))
         
+    textfile_list = []
 
-        unigrams = create_ngram_dict(tokens, 1)
-        bigrams = create_ngram_dict(tokens, 2)
-        trigrams = create_ngram_dict(tokens, 3)
-        fourgrams = create_ngram_dict(tokens, 4)
+    for folder in folder_list:
+        text_files = os.listdir(folder)
+        for text_file in text_files:
+                textfile_list.append( os.path.join(folder, text_file))
 
-        # print_dict_stats(unigrams, total_size, 100)
+    for i in textfile_list:
+        with open(i, 'r', encoding = "utf8") as f:
+            lines = f.read()
 
-        bigram_model = [unigrams, bigrams]
+            tokens = preprocess(lines)
+            total_size = len(tokens)
 
-        print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", bigram_model, total_size)))
-        print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", bigram_model, total_size)))
+            unigrams = create_ngram_dict(tokens, 1)
+            bigrams = create_ngram_dict(tokens, 2)
+            trigrams = create_ngram_dict(tokens, 3)
+            fourgrams = create_ngram_dict(tokens, 4)
 
-        print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", [unigrams], total_size)))
-        print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", [unigrams], total_size)))
+            # print_dict_stats(unigrams, total_size, 100)
 
+            bigram_model = [unigrams, bigrams]
+
+            print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", bigram_model, total_size)))
+            print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", bigram_model, total_size)))
+
+            print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", [unigrams], total_size)))
+            print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", [unigrams], total_size)))
+
+    # ---------------------------------------------------------------------
+    # TRAINING CODE ENDS
+    # ---------------------------------------------------------------------
+
+
+
+    # ---------------------------------------------------------------------
+    # OPENS TEST SET FILES
+    # ---------------------------------------------------------------------
+
+    rootdir = 'DUC 2005 Dataset/TestSet/'
+    folder_list = []
+
+    for file in os.listdir(rootdir):
+            folder_list.append( os.path.join(rootdir, file))
         
+    textfile_list = []
+
+    for folder in folder_list:
+        text_files = os.listdir(folder)
+        for text_file in text_files:
+                textfile_list.append( os.path.join(folder, text_file))
+
+    for i in textfile_list:
+        with open(i, 'r', encoding = "utf8") as f:
+            lines = f.read()
+
+            tokens = preprocess(lines)
+            total_size = len(tokens)
+            
+
+            unigrams = create_ngram_dict(tokens, 1)
+            bigrams = create_ngram_dict(tokens, 2)
+            trigrams = create_ngram_dict(tokens, 3)
+            fourgrams = create_ngram_dict(tokens, 4)
+
+            # print_dict_stats(unigrams, total_size, 100)
+
+            bigram_model = [unigrams, bigrams]
+
+
+
+            print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", bigram_model, total_size)))
+            print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", bigram_model, total_size)))
+
+            print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", [unigrams], total_size)))
+            print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", [unigrams], total_size)))
+
+    # ---------------------------------------------------------------------
+    # TEST CODE ENDS
+    # ---------------------------------------------------------------------
+
+
 
 
 
