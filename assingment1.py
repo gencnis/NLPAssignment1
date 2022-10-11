@@ -157,20 +157,27 @@ def main():
    # OPENS TRANING SET FILES
    # ---------------------------------------------------------------------
 
-    rootdir = 'DUC 2005 Dataset/TrainingSet/'
+    rootdir = 'DUC 2005 Dataset/TrainingSet/' # the root of the path 
     folder_list = []
 
+    # this loop goes through the small folders in the Training Set folder 
+    # and append the path it to the folder list
+    # also adds the the original path to the folder path list
     for file in os.listdir(rootdir):
             folder_list.append( os.path.join(rootdir, file))
         
+    # creates empty list for the text file paths
     textfile_list = []
 
+    # goes through every little folder in the folder list to add to the text path list
     for folder in folder_list:
         text_files = os.listdir(folder)
         for text_file in text_files:
                 textfile_list.append( os.path.join(folder, text_file))
 
+    # goes through every element of the list to open the every file
     for i in textfile_list:
+        # opens the file 
         with open(i, 'r', encoding = "utf8") as f:
             lines = f.read()
 
@@ -203,23 +210,29 @@ def main():
     # ---------------------------------------------------------------------
 
     rootdir = 'DUC 2005 Dataset/TestSet/'
-    folder_list = []
+    folder_list = [] # this is the list for the folder 
 
+    # this loop goes through the small folders in the folder and appends it to the folder list
+    # also adds the the original path to the folder path 
     for file in os.listdir(rootdir):
             folder_list.append( os.path.join(rootdir, file))
         
+    # creates empty list for the text file paths
     textfile_list = []
 
+    # goes through every little folder in the folder list to add to the text path list
     for folder in folder_list:
         text_files = os.listdir(folder)
         for text_file in text_files:
                 textfile_list.append( os.path.join(folder, text_file))
 
+    # goes through every element of the list to open the every file
     for i in textfile_list:
+        # opens the file 
         with open(i, 'r', encoding = "utf8") as f:
             lines = f.read()
 
-            tokens = preprocess(lines)
+            tokens = preprocess(lines) 
             total_size = len(tokens)
             
 
@@ -231,8 +244,6 @@ def main():
             # print_dict_stats(unigrams, total_size, 100)
 
             bigram_model = [unigrams, bigrams]
-
-
 
             print(str(sentence_probability("Cystic fibrosis is a cringe illness according to the journals.", bigram_model, total_size)))
             print(str(sentence_probability("Cystic cringe according the to journals a is fibrosis illness.", bigram_model, total_size)))
