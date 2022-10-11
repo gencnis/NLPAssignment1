@@ -3,7 +3,7 @@ from logging import root
 import os
 
 
-rootdir = 'DUC 2005 Dataset/TestSet/'
+rootdir = 'DUC 2005 Dataset/TrainingSet/'
 folder_list = []
 
 for file in os.listdir(rootdir):
@@ -20,7 +20,7 @@ a = 0
 for i in textfile_list:
     with open(i, 'r', encoding = "utf8") as f:
         lines = f.read()
-        print(lines)
+        # print(lines)
         a+=1
 
 print(a)
