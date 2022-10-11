@@ -1,3 +1,12 @@
+'''
+Natural Language Processing Assignment 1
+Performance Analysis of N-gram Language Models
+
+@author Alex Wills
+@author Nisanur Genc
+10/10/22
+'''
+
 import os
 import nltk
 from nltk.stem import WordNetLemmatizer
@@ -212,8 +221,9 @@ def main():
     rootdir = 'DUC 2005 Dataset/TestSet/'
     folder_list = [] # this is the list for the folder 
 
-    # this loop goes through the small folders in the folder and appends it to the folder list
-    # also adds the the original path to the folder path 
+    # this loop goes through the small folders in the Test Set folder 
+    # and append the path it to the folder list
+    # also adds the the original path to the folder path list
     for file in os.listdir(rootdir):
             folder_list.append( os.path.join(rootdir, file))
         
